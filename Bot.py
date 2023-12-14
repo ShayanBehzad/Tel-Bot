@@ -14,15 +14,10 @@ datet = formatted_time.split()
 datetstr = 'امروز: ' + ' ' + str(datet[0]) + '\n' + 'ساعت: ' + ' ' + str(datet[1]) + '\n' + ' به وقت: ' + ' ' + 'GMT+3:30'
 
 
-# 13cfa25ee797490893597337025a17b0
-
-# wfIfK5cZPyszntAehKZsGGxO9DifSNCeur/u0+pZpzFV/NPE
-
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
-# shoh apikey: 4ab98c293d4d4146ab4b89a5a9243842
 url = ('https://newsapi.org/v2/top-headlines?'
        'sources=bbc-news&'
        'apiKey=13cfa25ee797490893597337025a17b0')
@@ -31,11 +26,8 @@ data = response.json()
 
 articles = data['articles']
 
-#
-# love_list = ['daryamoradii', 'moauraa', 'sepehrmnp', 'aryanmnp', 'shayanbenzad']
-# gls = ['شایان','شاشان','بهزاد','شاشا']
-poori = ['پوری','کفتر','سیبیل','گاد','غیرت','زانتیا']
-doki = ['هیپهاپولوژیست','دکی','دکتر','مازندران','لندنی','وحشی','عمل']
+
+words = ['list of desiered words']
 
 
 async def home(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -46,7 +38,6 @@ async def home(update: Update, context: ContextTypes.DEFAULT_TYPE):
     Markup = ReplyKeyboardMarkup(keyboard)
 
     await update.message.reply_text('Choose an option:', reply_markup=Markup)
-    # await context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     button1_row = [KeyboardButton('Music'), KeyboardButton('News')]
     button2_row = [KeyboardButton('Help')]
@@ -60,51 +51,16 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def massage_response(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    chanel_poori = await context.bot.get_chat('@poooorii')
-    chanel_doki = await context.bot.get_chat('@hipdok')
+    chanel_name = await context.bot.get_chat('@YOUR_CHANELL')
 
     message = update.message
-    # user_id = update.message.from_user
-    # await context.bot.send_message(chat_id=chanel_poori.id,text=str(message.id) + '  ' + 'salam')
-
-    # if message.text in 'ریی':
-    #     await context.bot.send_message(chat_id=update.effective_chat.id, reply_to_message_id=update.effective_message.id, text='فکش رییییی')
-    #
-    # elif message.text in 'ربات' :
-    #     if str(user_id['id']) in '86756573':
-    #         await context.bot.send_message(chat_id=update.effective_chat.id, reply_to_message_id=update.effective_message.id,text='سلطانی آقا شایان')
-    #     elif str(user_id['username']) in love_list:
-    #         await context.bot.send_message(chat_id=update.effective_chat.id, reply_to_message_id=update.effective_message.id,text='جون دلم')
-    #
-    #     else:
-    #         await context.bot.send_message(chat_id=update.effective_chat.id, reply_to_message_id=update.effective_message.id,text='کیر')
-    #
-
-    # elif str(user_id['id']) in '5894900425':
-    #     await context.bot.send_message(chat_id=update.effective_chat.id, reply_to_message_id=update.effective_message.id, text='آخه چقد تو دولی آرش')
 
     for i in message.text.split():
-        # if i in gls:
-        #     if str(user_id['username']) in love_list:
-        #         await context.bot.send_message(chat_id=update.effective_chat.id, reply_to_message_id=update.effective_message.id, text=f'عای {i} فدات شه')
-        #         break
-        #     else:
-        #         await context.bot.send_message(chat_id=update.effective_chat.id, reply_to_message_id=update.effective_message.id, text='کیر')
-        #         break
-        # elif i in 'سینا':
-        #     await context.bot.send_message(chat_id=update.effective_chat.id, reply_to_message_id=update.effective_message.id, text='سینا پیپیه')
-        #     break
+        if i in chanel:
+            await context.bot.forwardMessage(chat_id=update.effective_chat.id, from_chat_id=chanel_name.id,
+                                             message_id='%i'%randint('The number range of channel post IDs'))
 
-
-
-        if i in poori:
-            await context.bot.forwardMessage(chat_id=update.effective_chat.id, from_chat_id=chanel_poori.id,
-                                             message_id='%i'%randint(2,11))
-        elif i in doki:
-            await context.bot.forwardMessage(chat_id=update.effective_chat.id, from_chat_id=chanel_doki.id,
-                                            message_id='%i' % randint(3, 13))
-
-        elif i == 'اخبار':
+        elif i == 'news':
             news = ''
             for i in range(len(articles)):
                 news += f'{i + 1}. ' + articles[i]['title'] + ':'
@@ -113,31 +69,26 @@ async def massage_response(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 news += '\n'
             await context.bot.send_message(chat_id=update.effective_chat.id, reply_to_message_id=update.effective_message.id, text=news)
 
-        elif i == 'تاریخ':
+        elif i == 'datetime':
             await context.bot.send_message(chat_id=update.effective_chat.id, reply_to_message_id=update.effective_message.id, text= datetstr)
 
 async def prmessage_response(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    chanel_poori = await context.bot.get_chat('@poooorii')
-    chanel_doki = await context.bot.get_chat('@hipdok')
+    chanel_name = await context.bot.get_chat('@YOUR_CHANELL')
 
     message = update.message
     if message.text in 'Music':
-        Markup = ReplyKeyboardMarkup([['Hiphopologist', 'Poori'], ['/Home']])
+        Markup = ReplyKeyboardMarkup([['The_Artist',], ['/Home']])
         await update.message.reply_text('Choose your playlist: ', reply_markup=Markup)
 
     elif message.text in 'Help':
         help = "🎵 To get the playlist of the artist you want press or write 'Help'." + '\n' + '\n' + "📰 To get news headlines, press or write 'News' and then choose the title to get the specifics."  + '\n' + '\n' 'Created By @Shb_80'
         await context.bot.send_message(chat_id=update.effective_chat.id, text=help)
 
-    elif message.text == 'Hiphopologist':
-        for i in range(3,14):
-            await context.bot.forwardMessage(chat_id=update.effective_chat.id, from_chat_id=chanel_doki.id,
+    elif message.text == 'words':
+        for i in range('The number range of channel post IDs'):
+            await context.bot.forwardMessage(chat_id=update.effective_chat.id, from_chat_id=chanel_name.id,
                                             message_id='%i' % i)
-    elif message.text == 'Poori':
-        for i in range(2, 12):
-            await context.bot.forwardMessage(chat_id=update.effective_chat.id, from_chat_id=chanel_poori.id,
-                                             message_id='%i' % i)
-
+ 
     elif message.text in 'News':
         ls1 = [['/home']]
         news = ''
@@ -179,7 +130,7 @@ async def prmessage_response(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
 
 if __name__ == '__main__':
-    application = ApplicationBuilder().token('6660229378:AAERnzDGQMTzS3ufhokQpwgDG3PoN_p-fj4').build()
+    application = ApplicationBuilder().token('BOTFATHER TOKEN').build()
 
     massage_handler = MessageHandler(filters.TEXT & filters.ChatType.GROUP, massage_response)
     start_handler = CommandHandler('start', start)
